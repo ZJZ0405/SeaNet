@@ -1,0 +1,66 @@
+{
+    "name": "NetLearn Development Container",
+    "privileged": true,
+    "remoteUser": "netlearn",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "args": {
+            "USERNAME": "netlearn"
+        }
+    },
+    "image": "net-learn-dev:latest",
+    "workspaceFolder": "/home/ws",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ws,type=bind",
+    "customizations": {
+        "vscode": {
+            "extensions":[
+                "batisteo.vscode-django",
+                "donjayamanne.python-environment-manager",
+                "donjayamanne.python-extension-pack",
+                "eamodio.gitlens",
+                "github.copilot",
+                "github.copilot-chat",
+                "kevinrose.vsc-python-indent",
+                "ms-azuretools.vscode-containers",
+                "ms-ceintl.vscode-language-pack-zh-hans",
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.jupyter-keymap",
+                "ms-toolsai.jupyter-renderers",
+                "ms-toolsai.vscode-jupyter-cell-tags",
+                "ms-toolsai.vscode-jupyter-slideshow",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cpptools-themes",
+                "njpwerner.autodocstring",
+                "saoudrizwan.claude-dev",
+                "twxs.cmake",
+                "visualstudioexptteam.intellicode-api-usage-examples",
+                "visualstudioexptteam.vscodeintellicode",
+                "wholroyd.jinja"
+            ]
+        }
+    },
+    "containerEnv": {
+        "DISPLAY": "unix:0",
+        "ROS_LOCALHOST_ONLY": "1",
+        "ROS_DOMAIN_ID": "42"
+    },
+    "runArgs": [
+        "--net=host",
+        "--pid=host",
+        "--ipc=host",
+        "-e", "DISPLAY=${env:DISPLAY}",
+        "--gpus", "all",
+        "-e", "NVIDIA_DRIVER_CAPABILITIES=compute,utility,display",
+        "-e", "TORCH_CUDA_ARCH_LIST=Ampere"
+    ],
+    "mounts": [
+       "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+       "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached"
+    ],
+    "postCreateCommand": "sudo chown -R $(whoami) /home/ws/"
+}
