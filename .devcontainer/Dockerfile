@@ -78,6 +78,7 @@ RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 triton
 
 RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
     ipykernel \
+    scipy \
     matplotlib
 
 RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 pycuda
@@ -107,6 +108,9 @@ RUN apt-get update && apt-get install -y libopencv-dev
 #     tensorrt==10.7.0 \
 #     --extra-index-url https://pypi.nvidia.com || \
 #     pip install --no-cache-dir tensorrt
+
+RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
+    imageio
 
 ENV SHELL /bin/bash
 

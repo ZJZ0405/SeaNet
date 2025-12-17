@@ -17,7 +17,7 @@ torch.cuda.set_device(0)
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', type=int, default=50, help='epoch number')
 parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-parser.add_argument('--batchsize', type=int, default=8, help='training batch size')
+parser.add_argument('--batchsize', type=int, default=2, help='training batch size')
 parser.add_argument('--trainsize', type=int, default=288, help='training dataset size')
 parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
 parser.add_argument('--decay_rate', type=float, default=0.1, help='decay rate of learning rate')
@@ -30,11 +30,9 @@ model = SeaNet()
 model.cuda()
 params = model.parameters()
 optimizer = torch.optim.Adam(params, opt.lr)
-#
-# image_root = './dataset/train_dataset/ORSSD/train/image/'
-# gt_root = './dataset/train_dataset/ORSSD/train/GT/'
-image_root = './dataset/train_dataset/EORSSD/train/image/'
-gt_root = './dataset/train_dataset/EORSSD/train/GT/'
+
+image_root = 'datasets/Image-train/'
+gt_root = 'datasets/GT-train/'
 train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
 total_step = len(train_loader)
 
@@ -60,9 +58,9 @@ def train(train_loader, model, optimizer, epoch):
         loss2 = CE(s34, gts) + IOU(s34_sig, gts)
         loss3 = CE(s5, gts) + IOU(s5_sig, gts)
         # torch 0.4.0
-        loss4 = MSE(edge1, edge2)/(opt.trainsize*opt.trainsize)
+        # loss4 = MSE(edge1, edge2)/(opt.trainsize*opt.trainsize)
         # torch 1.9.0
-        # loss4 = MSE(edge1, edge2)
+        loss4 = MSE(edge1, edge2)
 
         loss = loss1 + loss2 + loss3 + 0.5*loss4
 
