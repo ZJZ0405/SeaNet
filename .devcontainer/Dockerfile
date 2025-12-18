@@ -110,7 +110,8 @@ RUN apt-get update && apt-get install -y libopencv-dev
 #     pip install --no-cache-dir tensorrt
 
 RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
-    imageio
+    imageio \
+    onnxscript
 
 ENV SHELL /bin/bash
 
