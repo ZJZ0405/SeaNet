@@ -5,6 +5,7 @@ import numpy as np
 import os
 
 from model.MobileNetV2 import mobilenet_v2
+from model.MobileNetV3 import mobilenet_v3_small
 from torch.nn import Parameter
 
 
@@ -266,7 +267,8 @@ class SeaNet(nn.Module):
     def __init__(self, pretrained=True, channel=128):
         super(SeaNet, self).__init__()
         # Backbone model
-        self.backbone = mobilenet_v2(pretrained)
+        # self.backbone = mobilenet_v2(pretrained)
+        self.backbone = mobilenet_v3_small(pretrained)
         # input 256*256*3
         # conv1 128*128*16
         # conv2 64*64*24

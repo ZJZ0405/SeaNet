@@ -21,7 +21,7 @@ dataset_path = 'datasets/'
 # 2. 加载模型
 model = SeaNet()
 # 建议加上 map_location，防止在不同显卡配置下加载报错
-model.load_state_dict(torch.load('./models/SeaNet/SeaNet.pth.49', map_location=device))
+model.load_state_dict(torch.load('./models/SeaNet/SeaNet_epoch_50.pth', map_location=device))
 
 model.to(device)
 model.eval()
