@@ -99,7 +99,7 @@ class CCorrM(nn.Module):
         exemplar_out = self.conv1(exemplar_att + exemplar)
 
         query_att = query_att.view(-1, self.channel, fea_size[0], fea_size[1])  # N,C2,H*W -> N,C2,H,W
-        query_out = self.conv1(query_att + query)
+        query_out = self.conv2(query_att + query)
 
         return exemplar_out, query_out
 
@@ -267,8 +267,8 @@ class SeaNet(nn.Module):
     def __init__(self, pretrained=True, channel=128):
         super(SeaNet, self).__init__()
         # Backbone model
-        # self.backbone = mobilenet_v2(pretrained)
-        self.backbone = mobilenet_v3_small(pretrained)
+        self.backbone = mobilenet_v2(pretrained)
+        # self.backbone = mobilenet_v3_small(pretrained)
         # input 256*256*3
         # conv1 128*128*16
         # conv2 64*64*24
