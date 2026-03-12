@@ -6,8 +6,8 @@ import pdb, os, argparse
 import imageio
 import time
 
-from model.SeaNet_models import SeaNet
-from data import test_dataset
+from models.SeaNet import MyNet as SeaNet
+from utils.data import test_dataset
 
 torch.cuda.set_device(0)
 parser = argparse.ArgumentParser()
@@ -17,7 +17,7 @@ opt = parser.parse_args()
 dataset_path = 'datasets/'
 
 model = SeaNet()
-model.load_state_dict(torch.load('./models/SeaNet/SeaNet.pth.49'))
+model.load_state_dict(torch.load('./result/SeaNet.pth'))
 
 model.cuda()
 model.eval()
@@ -42,7 +42,7 @@ for dataset in test_datasets:
         res, s34, s5, s12_sig, s34_sig, s5_sig, edge1, edge2 = model(image)
         time_end = time.time()
         time_sum = time_sum+(time_end-time_start)
-        res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+        res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
         res = res.sigmoid().data.cpu().numpy().squeeze()
         res = (res - res.min()) / (res.max() - res.min() + 1e-8)
         res = (res * 255).astype('uint8')

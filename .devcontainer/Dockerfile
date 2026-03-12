@@ -68,20 +68,20 @@ RUN apt-get install \
 RUN apt-get install -y build-essential cmake pkg-config libjpeg-dev libtiff-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
     libxvidcore-dev libx264-dev libgtk-3-dev libatlas-base-dev gfortran python3-dev
 
-RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
+RUN pip install --no-cache-dir \
     opencv-python \
     onnx \
     onnxruntime-gpu \
     onnx-simplifier
 
-RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 triton
+RUN pip install --no-cache-dir triton
 
-RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
+RUN pip install --no-cache-dir \
     ipykernel \
     scipy \
     matplotlib
 
-RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 pycuda
+RUN pip install --no-cache-dir pycuda
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
@@ -109,7 +109,7 @@ RUN apt-get update && apt-get install -y libopencv-dev
 #     --extra-index-url https://pypi.nvidia.com || \
 #     pip install --no-cache-dir tensorrt
 
-RUN pip install --no-cache-dir --proxy=http://172.17.0.1:10808 \
+RUN pip install --no-cache-dir \
     imageio \
     onnxscript
 
