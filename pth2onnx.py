@@ -1,5 +1,5 @@
 import torch
-from model.SeaNet_models import SeaNet
+from project.models.backbone.MobileNetV2 import MobileNetV2
 
 # 1. 实例化你的网络模型 (需要替换为你自己的模型类)
 # 这里假设你的模型类叫做 MyModel
@@ -8,11 +8,11 @@ from model.SeaNet_models import SeaNet
 
 
 # 2. 加载 .pth 权重文件
-pth_file_path = "models/SeaNet.pth"  # 替换为你的 pth 文件路径
+pth_file_path = "/home/ws/project/models/mobilenet_v2-b0353104.pth"  # 替换为你的 pth 文件路径
 
 # 常见情况一：pth 中只保存了 state_dict (推荐方式)
 # 使用 map_location 确保在没有 GPU 的机器上也能加载
-model = SeaNet()
+model = MobileNetV2()
 model.load_state_dict(torch.load(pth_file_path))
 
 # 常见情况二：pth 中保存了整个模型 (网络结构+权重)
@@ -28,7 +28,7 @@ model.cuda().eval()
 dummy_input = torch.randn(1, 3, 224, 224, device='cuda')
 
 # 5. 导出为 ONNX
-onnx_file_path = "models/SeaNet.pth.onnx"
+onnx_file_path = "models/mobilenet_v2.onnx"
 
 print("开始导出 ONNX 模型...")
 torch.onnx.export(
@@ -36,7 +36,7 @@ torch.onnx.export(
     dummy_input,                   # 模型的输入 (如果模型有多个输入，可以传入一个元组，如 (dummy_input1, dummy_input2))
     onnx_file_path,                # 保存 ONNX 文件的路径
     export_params=True,            # 是否将训练好的参数权重存储在 ONNX 文件中 (通常设为 True)
-    opset_version=17,              # ONNX 的 opset 版本 (11 比较常用且兼容性好，也可以根据需要尝试 12, 13, 14 等)
+    opset_version=18,              # ONNX 的 opset 版本 (11 比较常用且兼容性好，也可以根据需要尝试 12, 13, 14 等)
     do_constant_folding=True,      # 是否执行常量折叠优化 (提升推理速度)
     input_names=['input'],         # 为输入节点指定名称 (可选，但建议指定)
     output_names=['output'],       # 为输出节点指定名称 (可选，但建议指定)
