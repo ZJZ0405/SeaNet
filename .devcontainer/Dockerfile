@@ -104,10 +104,10 @@ RUN apt-get update && apt-get install -y libopencv-dev
 
 # ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
-# RUN pip install --no-cache-dir \
-#     tensorrt==10.7.0 \
-#     --extra-index-url https://pypi.nvidia.com || \
-#     pip install --no-cache-dir tensorrt
+RUN pip install --no-cache-dir \
+    tensorrt==10.7.0 \
+    --extra-index-url https://pypi.nvidia.com || \
+    pip install --no-cache-dir tensorrt
 
 RUN pip install --no-cache-dir \
     imageio \
